@@ -66,12 +66,20 @@ namespace :cluster do
   end
 
   def cluster_server_stop_cmd
-    command = "docker-compose down"
+    env = [
+      "CONSUL_BIND_ADDRESS=''",
+      "NOMAD_BIND_ADDRESS=''"
+    ]
+    command = "#{env.join(' ')} docker-compose down"
     return command
   end
 
   def cluster_clientr_stop_cmd
-    command = "docker-compose down"
+    env = [
+      "CONSUL_BIND_ADDRESS=''",
+      "NOMAD_BIND_ADDRESS=''"
+    ]
+    command = "#{env.join(' ')} docker-compose down"
     return command
   end
 

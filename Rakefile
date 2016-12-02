@@ -177,7 +177,7 @@ namespace :cluster do
     args.with_defaults(:repo_url => 'localhost:5000')
     command = cluster_images_push_cmd(
       args[:repo_url],
-      ['fgtatsuro/consul:0.7', 'fgtatsuro/nomad:0.7'])
+      ['fgtatsuro/consul:0.1', 'fgtatsuro/nomad:0.1'])
     sh command
   end
 
@@ -187,7 +187,7 @@ namespace :cluster do
     args.with_defaults(:repo_url => 'localhost:5000')
     command = cluster_images_pull_cmd(
       args[:repo_url],
-      ['fgtatsuro/consul:0.7', 'fgtatsuro/nomad:0.7'])
+      ['fgtatsuro/consul:0.1', 'fgtatsuro/nomad:0.1'])
     sh command
   end
 
@@ -198,7 +198,7 @@ namespace :cluster do
     args.with_defaults(:repo_url => 'localhost:5000')
     command = cluster_images_pull_cmd(
       args[:repo_url],
-      ['fgtatsuro/consul:0.7', 'fgtatsuro/nomad:0.7'])
+      ['fgtatsuro/consul:0.1', 'fgtatsuro/nomad:0.1'])
     puts command
   end
 end

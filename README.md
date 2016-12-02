@@ -50,10 +50,10 @@ Before build, We must prepare the inventory including `consul`, `nomad` and `clu
 ```bash
 $ cat spec/inventory/docker/hosts
 [consul]
-service-cluster-consul          utility_docker_base_image=fgtatsuro/infra-bridgehead:alpine-3.3 utility_docker_commit_image=fgtatsuro/consul:0.7
+service-cluster-consul          utility_docker_base_image=fgtatsuro/infra-bridgehead:alpine-3.3 utility_docker_commit_image=fgtatsuro/consul:0.1
 
 [nomad]
-service-cluster-nomad           utility_docker_base_image=fgtatsuro/infra-bridgehead:debian-jessie utility_docker_commit_image=fgtatsuro/nomad:0.7
+service-cluster-nomad           utility_docker_base_image=fgtatsuro/infra-bridgehead:debian-jessie utility_docker_commit_image=fgtatsuro/nomad:0.1
 
 [cluster:children]
 consul

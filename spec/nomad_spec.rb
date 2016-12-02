@@ -7,7 +7,7 @@ describe file('/etc/nomad.d') do
     it { should be_grouped_into 'root' }
 end
 
-describe file('/opt/nomad/services.sh') do
+describe file('/opt/cluster/nomad/services.sh') do
     it { should be_file }
     it { should be_mode 755 }
     it { should be_owned_by 'root' }

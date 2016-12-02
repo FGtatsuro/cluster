@@ -13,9 +13,9 @@
     - role: FGtatsuro.consul
   tasks:
     - block:
-      - name: Ensure /opt/consul directory exists
+      - name: Ensure /opt/cluster/consul directory exists
         file:
-          path: '/opt/consul'
+          path: '/opt/cluster/consul'
           owner: 'root'
           group: 'root'
           state: 'directory'
@@ -23,7 +23,7 @@
       - name: Set service script
         template:
           src: '../resources/consul/services.sh'
-          dest: '/opt/consul/services.sh'
+          dest: '/opt/cluster/consul/services.sh'
           mode: '0755'
       become: yes
   post_tasks:
@@ -43,9 +43,9 @@
     - role: FGtatsuro.nomad
   tasks:
     - block:
-      - name: Ensure /opt/nomad directory exists
+      - name: Ensure /opt/cluster/nomad directory exists
         file:
-          path: '/opt/nomad'
+          path: '/opt/cluster/nomad'
           owner: 'root'
           group: 'root'
           state: 'directory'
@@ -53,7 +53,7 @@
       - name: Set service script
         template:
           src: '../resources/nomad/services.sh'
-          dest: '/opt/nomad/services.sh'
+          dest: '/opt/cluster/nomad/services.sh'
           mode: '0755'
       become: yes
   post_tasks:

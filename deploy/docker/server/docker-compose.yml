@@ -4,7 +4,7 @@ services:
   consul_server:
     image: fgtatsuro/consul:0.7
     network_mode: "host"
-    command: /opt/consul/services.sh server
+    command: /opt/cluster/consul/services.sh server
     environment:
       - CONSUL_SERVER_NUM
       - CONSUL_NODE_NAME
@@ -25,7 +25,7 @@ services:
   nomad_server:
     image: fgtatsuro/nomad:0.7
     network_mode: "host"
-    command: /opt/nomad/services.sh server
+    command: /opt/cluster/nomad/services.sh server
     environment:
       - NOMAD_SERVER_NUM
       - NOMAD_BIND_ADDRESS

@@ -4,7 +4,7 @@ services:
   consul_client:
     image: fgtatsuro/consul:0.7
     network_mode: "host"
-    command: /opt/consul/services.sh
+    command: /opt/cluster/consul/services.sh
     environment:
       - CONSUL_NODE_NAME
       - CONSUL_BIND_ADDRESS
@@ -24,7 +24,7 @@ services:
   nomad_client:
     image: fgtatsuro/nomad:0.7
     network_mode: "host"
-    command: /opt/nomad/services.sh
+    command: /opt/cluster/nomad/services.sh
     environment:
       - NOMAD_BIND_ADDRESS
       - NOMAD_ADDR=http://${NOMAD_BIND_ADDRESS}:4646

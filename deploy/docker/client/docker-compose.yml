@@ -2,7 +2,8 @@
 version: '2'
 services:
   consul_client:
-    image: fgtatsuro/consul:0.7
+    container_name: service-cluster-consul
+    image: fgtatsuro/consul:0.1
     network_mode: "host"
     command: /opt/cluster/consul/services.sh
     environment:
@@ -22,7 +23,8 @@ services:
       - "8600"
       - "8600/udp"
   nomad_client:
-    image: fgtatsuro/nomad:0.7
+    container_name: service-cluster-nomad
+    image: fgtatsuro/nomad:0.1
     network_mode: "host"
     command: /opt/cluster/nomad/services.sh
     environment:

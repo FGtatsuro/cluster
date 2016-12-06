@@ -11,6 +11,4 @@ nomad
 [cluster:vars]
 ansible_connection=docker
 ansible_user=root
-consul_config_src_dir=../resources/consul/consul.d/
-nomad_config_src_dir=../resources/nomad/nomad.d/
 utility_docker_image_committed=yes

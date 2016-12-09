@@ -29,6 +29,7 @@ namespace :cluster do
       all << "cluster:spec:#{n}"
     end
 
+    desc 'Run serverspec tests.'
     task :all     => all
   end
 

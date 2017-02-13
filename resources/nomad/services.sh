@@ -2,7 +2,7 @@
 
 NOMAD_DATADIR=${CONSUL_DATADIR:-/tmp/nomad}
 NOMAD_CONFIGDIR=${NOMAD_CONFIGDIR:-/etc/nomad.d}
-
+NOMAD_BIND_ADDRESS=${NOMAD_BIND_ADDRESS:-127.0.0.1}
 # Rewrite Consul settings.
 # This is a workaround because hcl doesn't support interpolation of environment variable.
 # Ref. https://github.com/hashicorp/nomad/issues/918
@@ -15,6 +15,9 @@ OPTS="-bind=${NOMAD_BIND_ADDRESS} -data-dir=${NOMAD_DATADIR} -config=${NOMAD_CON
 if [ "$1" == "server" ]
 then
     OPTS="${OPTS} -server -bootstrap-expect=${NOMAD_SERVER_NUM}"
+elif [ "$1" == "dev" ]
+then
+    OPTS="${OPTS} -dev"
 else
     OPTS="${OPTS} -client"
 fi

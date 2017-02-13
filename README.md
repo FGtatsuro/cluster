@@ -162,6 +162,7 @@ As we use tasks to deploy service/run tests, several utility tasks are defined. 
 Limitation
 ----------
 
-Now, containers of this service can't run on Docker for Mac.
+Now, containers of this service can't work well. Thus, it's only valid for testing to check provisioning.
 
-Ref. https://forums.docker.com/t/should-docker-run-net-host-work/14215/21
+- On OSX(Docker for Mac), network issue exists. (Ref. https://forums.docker.com/t/should-docker-run-net-host-work/14215/21)
+- On Linux, Consul/Nomad processes run, but submitting jobs is failed.

@@ -6,6 +6,11 @@
     - set_fact:
         utility_module_path: "{{ utility_module_path|default('../../ansible_utility') }}"
         consul_config_src_dir: "{{ consul_config_src_dir|default('../resources/consul/consul.d/') }}"
+        # Template variables for daemon script.
+        cluster_daemon_stdout_log: '/var/log/cluster/consul.log'
+        cluster_daemon_stderr_log: '/var/log/cluster/consul_error.log'
+        cluster_daemon_pidfile: '/var/lock/cluster/consul.pid'
+        cluster_service_dir: '/opt/cluster/consul'
     - name: Do pre-task for each platform
       include: "{{ utility_module_path }}/pre_tasks/{{ ansible_connection }}.yml"
     - name: "Gather fact information on target platform."
@@ -14,9 +19,9 @@
     - role: FGtatsuro.consul
   tasks:
     - block:
-      - name: Ensure /opt/cluster/consul directory exists
+      - name: Ensure a directory related to service script
         file:
-          path: '/opt/cluster/consul'
+          path: "{{ cluster_service_dir }}"
           owner: 'root'
           group: 'root'
           state: 'directory'
@@ -24,8 +29,22 @@
       - name: Set service script
         template:
           src: '../resources/consul/services.sh'
-          dest: '/opt/cluster/consul/services.sh'
+          dest: "{{ cluster_service_dir }}/services.sh"
           mode: '0755'
+      become: yes
+    - block:
+      - name: Ensure directories related to daemon exist
+        file:
+          path: "{{ item | dirname }}"
+          owner: 'root'
+          group: 'root'
+          state: 'directory'
+        with_items:
+          - "{{ cluster_daemon_stdout_log }}"
+          - "{{ cluster_daemon_stderr_log }}"
+          - "{{ cluster_daemon_pidfile }}"
+      - name: Setup Consul daemon
+        include: './python_daemon.yml'
       become: yes
   post_tasks:
     - name: Do post-task for each platform
@@ -37,6 +56,11 @@
     - set_fact:
         utility_module_path: "{{ utility_module_path|default('../../ansible_utility') }}"
         nomad_config_src_dir: "{{ nomad_config_src_dir|default('../resources/nomad/nomad.d/') }}"
+        # Template variables for daemon script.
+        cluster_daemon_stdout_log: '/var/log/cluster/nomad.log'
+        cluster_daemon_stderr_log: '/var/log/cluster/nomad_error.log'
+        cluster_daemon_pidfile: '/var/lock/cluster/nomad.pid'
+        cluster_service_dir: '/opt/cluster/nomad'
     - name: Do pre-task for each platform
       include: "{{ utility_module_path }}/pre_tasks/{{ ansible_connection }}.yml"
     - name: "Gather fact information on target platform."
@@ -45,9 +69,9 @@
     - role: FGtatsuro.nomad
   tasks:
     - block:
-      - name: Ensure /opt/cluster/nomad directory exists
+      - name: Ensure a directory related to service script
         file:
-          path: '/opt/cluster/nomad'
+          path: "{{ cluster_service_dir }}"
           owner: 'root'
           group: 'root'
           state: 'directory'
@@ -55,8 +79,22 @@
       - name: Set service script
         template:
           src: '../resources/nomad/services.sh'
-          dest: '/opt/cluster/nomad/services.sh'
+          dest: "{{ cluster_service_dir }}/services.sh"
           mode: '0755'
+      become: yes
+    - block:
+      - name: Ensure directories related to daemon exist
+        file:
+          path: "{{ item | dirname }}"
+          owner: 'root'
+          group: 'root'
+          state: 'directory'
+        with_items:
+          - "{{ cluster_daemon_stdout_log }}"
+          - "{{ cluster_daemon_stderr_log }}"
+          - "{{ cluster_daemon_pidfile }}"
+      - name: Setup Nomad daemon
+        include: './python_daemon.yml'
       become: yes
   post_tasks:
     - name: Do post-task for each platform

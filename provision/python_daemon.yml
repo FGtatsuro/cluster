@@ -1,0 +1,12 @@
+---
+# tasks to daemonize cluster processes with python-daemon
+- name: Install python-daemon
+  pip:
+    name: python-daemon
+  become: yes
+- name: Set daemon script
+  template:
+    src: '../resources/daemon.py'
+    dest: "{{ cluster_service_dir }}/daemon.py"
+    mode: '0755'
+  become: yes

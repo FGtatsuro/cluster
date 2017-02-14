@@ -7,6 +7,6 @@
 - name: Set daemon script
   template:
     src: '../resources/daemon.py'
-    dest: "{{ cluster_service_dir }}/daemon.py"
+    dest: "{{ cluster_service_dir }}/daemons.py"
     mode: '0755'
   become: yes

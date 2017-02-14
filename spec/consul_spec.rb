@@ -15,7 +15,7 @@ end
 
 [
   '/opt/cluster/consul/services.sh',
-  '/opt/cluster/consul/daemon.py'
+  '/opt/cluster/consul/daemons.py'
 ].each do |f|
   describe file(f) do
     it { should be_file }

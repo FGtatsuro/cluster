@@ -15,7 +15,7 @@ end
 
 [
   '/opt/cluster/nomad/services.sh',
-  '/opt/cluster/nomad/daemon.py'
+  '/opt/cluster/nomad/daemons.py'
 ].each do |f|
   describe file(f) do
     it { should be_file }

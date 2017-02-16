@@ -1,0 +1,11 @@
+[consul]
+localhost ansible_connection=local
+192.168.1.11  ansible_connection=ssh ansible_user=clusteruser
+
+[cluster:children]
+consul
+
+[cluster:vars]
+# Default: OSX
+consul_config_owner=root
+consul_config_group=wheel

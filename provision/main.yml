@@ -22,8 +22,8 @@
       - name: Ensure a directory related to service script
         file:
           path: "{{ cluster_service_dir }}"
-          owner: 'root'
-          group: 'root'
+          owner: "{{ consul_config_owner }}"
+          group: "{{ consul_config_group }}"
           state: 'directory'
       # TODO: Create custom role to put these settings.
       - name: Set service script
@@ -36,8 +36,8 @@
       - name: Ensure directories related to daemon exist
         file:
           path: "{{ item | dirname }}"
-          owner: 'root'
-          group: 'root'
+          owner: "{{ consul_config_owner }}"
+          group: "{{ consul_config_group }}"
           state: 'directory'
         with_items:
           - "{{ cluster_daemon_stdout_log }}"
@@ -72,8 +72,8 @@
       - name: Ensure a directory related to service script
         file:
           path: "{{ cluster_service_dir }}"
-          owner: 'root'
-          group: 'root'
+          owner: "{{ nomad_config_owner }}"
+          group: "{{ nomad_config_group }}"
           state: 'directory'
       # TODO: Create custom role to put these settings.
       - name: Set service script
@@ -86,8 +86,8 @@
       - name: Ensure directories related to daemon exist
         file:
           path: "{{ item | dirname }}"
-          owner: 'root'
-          group: 'root'
+          owner: "{{ nomad_config_owner }}"
+          group: "{{ nomad_config_group }}"
           state: 'directory'
         with_items:
           - "{{ cluster_daemon_stdout_log }}"

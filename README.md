@@ -164,9 +164,9 @@ And helper tasks are defined to start/stop this service with environment variabl
 
 ```bash
 # Start server
-$ bundle exec rake cluster:start-server[cluster-server-01,10.0.0.212]
+$ bundle exec rake cluster:container:start-server[cluster-server-01,10.0.0.212]
 # Stop server
-$ bundle exec rake cluster:stop-server
+$ bundle exec rake cluster:container:stop-server
 ```
 
 ### Variables

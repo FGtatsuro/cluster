@@ -1,0 +1,11 @@
+[nomad]
+localhost ansible_connection=local
+192.168.1.11  ansible_connection=ssh ansible_user=clusteruser
+
+[cluster:children]
+nomad
+
+[cluster:vars]
+# Default: OSX
+nomad_config_owner=root
+nomad_config_group=wheel

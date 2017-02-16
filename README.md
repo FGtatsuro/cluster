@@ -48,6 +48,29 @@ $ ansible-galaxy install -r role_requirements.yml
 Before build, We must prepare the inventory including `consul`, `nomad` and `cluster` group. For example,
 
 ```bash
+# Inventry for machines via ssh/local connection.
+# In an inventry file, same hostname can't be used in different groups.
+# Thus, two separate inventry files are needed.
+$ cat spec/inventory/ssh/consul
+[consul]
+localhost ansible_connection=local
+192.168.1.11  ansible_connection=ssh ansible_user=clusteruser
+
+[cluster:children]
+consul
+...
+
+$ cat spec/inventory/ssh/nomad
+[nomad]
+localhost ansible_connection=local
+192.168.1.11  ansible_connection=ssh ansible_user=clusteruser
+
+[cluster:children]
+nomad
+...
+
+
+# Inventry for containers
 $ cat spec/inventory/docker/hosts
 [consul]
 service-cluster-consul          utility_docker_base_image=fgtatsuro/infra-bridgehead:alpine-3.3 utility_docker_commit_image=fgtatsuro/consul:0.1
@@ -64,6 +87,10 @@ nomad
 After that, we can build this service as follows.
 
 ```bash
+# Machine via ssh/local connection
+$ ansible-playbook provision/main.yml -i spec/inventory/pm/hosts -l cluster
+
+# Container
 $ ansible-playbook provision/main.yml -i spec/inventory/docker/hosts -l cluster
 ```
 
@@ -89,7 +116,35 @@ This step must be done before build.
 Deploy
 ------
 
-This service can be deployed as both server and client. After build, we can start/stop it as follows.
+This service can be deployed as both server and client. 
+
+### Machine via ssh/local connection
+
+After build, we can start/stop them as follows.
+
+```bash
+# You must set specified environment variables before server starts. (Describe later)
+# Start server
+(server) $ sudo -E /opt/cluster/consul/daemons.py server
+(server) $ sudo -E /opt/cluster/nomad/daemons.py server
+# Stop server (TODO: more graceful way)
+(server) $ sudo pkill -f "consul"
+(server) $ sudo pkill -f "nomad"
+
+# You must set specified environment variables before client starts. (Describe later)
+# Start client
+(client) $ sudo -E /opt/cluster/consul/daemons.py client
+(client) $ sudo -E /opt/cluster/nomad/daemons.py client
+# Stop client (TODO: more graceful way)
+(client) $ sudo pkill -f "consul"
+(client) $ sudo pkill -f "nomad"
+```
+
+### Container
+
+**ATTENTION**: Containers of this service can't work well. Please check [limitation section](#Limitation).
+
+After build, we can start/stop them as follows.
 
 ```bash
 # You must set specified environment variables before server starts. (Describe later)

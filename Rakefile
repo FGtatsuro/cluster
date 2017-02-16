@@ -33,7 +33,31 @@ namespace :cluster do
     task :all     => all
   end
 
+  def _build(inventory, limitation, extra_vars, with_sudo)
+    command =
+      "cd #{File.expand_path(__dir__)} && " +
+      "ansible-playbook provision/main.yml " +
+      "-i #{inventory} -l #{limitation}"
+    if extra_vars != nil then
+      command = "#{command} -e #{extra_vars}"
+    end
+    if with_sudo then
+      command = "#{command} -K"
+    end
+    sh command
+  end
+
   namespace :ssh do
+    desc "Build clusters on machines via ssh/local connection. :consul_inventory/:nomad_inventory accept absolute path or relative path of the directory this Rakefile exists.\n" +
+      "Default: :limitation=cluster, :extra_vars=nil"
+    task 'build', :consul_inventory, :nomad_inventory, :limitation, :extra_vars do |t, args|
+      args.with_defaults(
+        :limitation => 'cluster',
+        :extra_vars => nil
+      )
+      _build(args[:consul_inventory], args[:limitation], args[:extra_vars], true)
+      _build(args[:nomad_inventory], args[:limitation], args[:extra_vars], true)
+    end
   end
 
   namespace :container do

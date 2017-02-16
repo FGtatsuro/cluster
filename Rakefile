@@ -191,13 +191,14 @@ namespace :cluster do
     end
 
     desc "Build cluster images on localhost. :inventory accepts absolute path or relative path of the directory this Rakefile exists.\n" +
-      "Default: inventory=spec/inventory/docker/hosts(for test)"
-    task 'build', :inventory do |t, args|
-      args.with_defaults(:inventory => 'spec/inventory/docker/hosts')
-      command =
-        "cd #{File.expand_path(__dir__)} && " +
-        "ansible-playbook provision/main.yml -i #{args[:inventory]} -l cluster"
-      sh command
+      "Default: :inventory=spec/inventory/docker/hosts, :limitation=cluster, :extra_vars=nil"
+    task 'build', :inventory, :limitation, :extra_vars do |t, args|
+      args.with_defaults(
+        :inventory => 'spec/inventory/docker/hosts',
+        :limitation => 'cluster',
+        :extra_vars => nil
+      )
+      _build(args[:inventory], args[:limitation], args[:extra_vars], false)
     end
 
     desc "Push cluster images to container registry. Before this task, container registry must run on :repo_url.\n" +

@@ -6,13 +6,6 @@ services:
     image: fgtatsuro/consul:0.1
     network_mode: "host"
     command: /opt/cluster/consul/services.sh server
-    environment:
-      - CONSUL_SERVER_NUM
-      - CONSUL_NODE_NAME
-      - CONSUL_BIND_ADDRESS
-      - CONSUL_JOIN_ADDRESS
-      - CONSUL_RPC_ADDR=${CONSUL_BIND_ADDRESS}:8400
-      - CONSUL_HTTP_ADDR=${CONSUL_BIND_ADDRESS}:8500
     expose:
       - "8300"
       - "8301"
@@ -28,11 +21,6 @@ services:
     image: fgtatsuro/nomad:0.1
     network_mode: "host"
     command: /opt/cluster/nomad/services.sh server
-    environment:
-      - NOMAD_SERVER_NUM
-      - NOMAD_BIND_ADDRESS
-      - NOMAD_ADDR=http://${NOMAD_BIND_ADDRESS}:4646
-      - NOMAD_CONSUL_HTTP_ADDRESS
     expose:
       - "4646"
       - "4647"

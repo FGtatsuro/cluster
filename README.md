@@ -116,7 +116,7 @@ This step must be done before build.
 Deploy
 ------
 
-This service can be deployed as both server and client. 
+This service can be deployed as both server and client.
 
 ### Machine via ssh/local connection
 
@@ -168,27 +168,6 @@ $ bundle exec rake cluster:container:start-server[cluster-server-01,10.0.0.212]
 # Stop server
 $ bundle exec rake cluster:container:stop-server
 ```
-
-### Variables
-
-These are the environment variables to control this service. These must be set before this service starts.
-
-|name|description|example value|usage type|
-|---|---|---|---|
-|CONSUL_NODE_NAME|This is passed to `-node` option of `consul agent`. This must be unique in cluster.|cluster-server-01|server/client|
-|CONSUL_BIND_ADDRESS|This is passed to `-bind` option of `consul agent`. In almost all cases, a private address in cluster network is used.|10.0.0.212|server/client|
-|CONSUL_JOIN_ADDRESS|This is passed to `-join` option of `consul agent`. In almost all cases, a private address in cluster network is used. <br>The server which runs first doesn't need this value.|10.0.0.212|server/client|
-|CONSUL_SERVER_NUM|This is passed to `-bootstrap-expect` of `consul agent`. This must be odd.|3|server|
-|NOMAD_BIND_ADDRESS|This is passed to `-bind` option of `nomad agent`. In almost all cases, same value to `CONSUL_BIND_ADDRESS` is used.|10.0.0.212|server/client|
-|NOMAD_CONSUL_HTTP_ADDRESS|IP:Port Consul http interface runs. In almost all cases, `CONSUL_BIND_ADDRESS`:8500 is used.|10.0.0.212:8500|server/client|
-|NOMAD_SERVER_NUM|This is passed to `-bootstrap-expect` of `consul agent`. This must be odd, and in almost all cases, same value to `CONSUL_SERVER_NUM` is used.|3|server|
-
-Please also check following items.
-
-- [Consul documents](https://www.consul.io/docs/)
-- [Nomad documents](https://www.nomadproject.io/docs/)
-- [./resources/consul/services.sh (Consul service script)](./resources/consul/services.sh)
-- [./resources/nomad/services.sh (Nomad service script)](./resources/nomad/services.sh)
 
 Test
 ----

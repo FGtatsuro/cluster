@@ -45,42 +45,52 @@ $ pip install ansible
 $ ansible-galaxy install -r role_requirements.yml
 ```
 
-Before build, We must prepare the inventory including `consul`, `nomad` and `cluster` group. For example,
+Before build, We must prepare the inventory including following groups.
+
+- `consul-server`
+- `consul-client`
+- `nomad-server`
+- `nomad-client`
+- `cluster`
+
+For example,
 
 ```bash
 # Inventry for machines via ssh/local connection.
 # In an inventry file, same hostname can't be used in different groups.
-# Thus, two separate inventry files are needed.
-$ cat spec/inventory/ssh/consul
-[consul]
-localhost ansible_connection=local
-192.168.1.11  ansible_connection=ssh ansible_user=clusteruser
+# Thus, several separate inventry files are needed.
+$ cat tests/inventory/ssh/consul
+[consul-server]
+server  ansible_port=2227 ansible_ssh_private_key_file='.vagrant/machines/server/virtualbox/private_key'
+
+[consul-client]
+client  ansible_port=2228 ansible_ssh_private_key_file='.vagrant/machines/client/virtualbox/private_key'
 
 [cluster:children]
-consul
+consul-server
+consul-client
+
+[cluster:vars]
+ansible_connection=ssh
+ansible_user=vagrant
+ansible_host=127.0.0.1
 ...
 
-$ cat spec/inventory/ssh/nomad
-[nomad]
-localhost ansible_connection=local
-192.168.1.11  ansible_connection=ssh ansible_user=clusteruser
+$ cat tests/inventory/ssh/nomad
+[nomad-server]
+server  ansible_port=2227 ansible_ssh_private_key_file='.vagrant/machines/server/virtualbox/private_key'
+
+[nomad-client]
+client  ansible_port=2228 ansible_ssh_private_key_file='.vagrant/machines/client/virtualbox/private_key'
 
 [cluster:children]
-nomad
-...
+nomad-server
+nomad-client
 
-
-# Inventry for containers
-$ cat spec/inventory/docker/hosts
-[consul]
-service-cluster-consul          utility_docker_base_image=fgtatsuro/infra-bridgehead:alpine-3.3 utility_docker_commit_image=fgtatsuro/consul:0.1
-
-[nomad]
-service-cluster-nomad           utility_docker_base_image=fgtatsuro/infra-bridgehead:debian-jessie utility_docker_commit_image=fgtatsuro/nomad:0.1
-
-[cluster:children]
-consul
-nomad
+[cluster:vars]
+ansible_connection=ssh
+ansible_user=vagrant
+ansible_host=127.0.0.1
 ...
 ```
 

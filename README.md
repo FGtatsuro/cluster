@@ -14,8 +14,6 @@ The dependencies on other softwares/libraries for this service are as follows.
 - pip (>= 9.0.x)
 - [Ansible](http://docs.ansible.com/ansible/index.html) (>= 2.2.x)
 - [Ansible roles](./role_requirements.yml)
-- Docker (>= 1.13.1)
-- Docker Compose (1.9.x)
 
 For tests/utility tasks, it's better to install following softwares/libraries.
 
@@ -99,9 +97,6 @@ After that, we can build this service as follows.
 ```bash
 # Machine via ssh/local connection
 $ ansible-playbook provision/main.yml -i spec/inventory/pm/hosts -l cluster
-
-# Container
-$ ansible-playbook provision/main.yml -i spec/inventory/docker/hosts -l cluster
 ```
 
 ### Variables
@@ -148,35 +143,6 @@ After build, we can start/stop them as follows.
 # Stop client (TODO: more graceful way)
 (client) $ sudo pkill -f "consul"
 (client) $ sudo pkill -f "nomad"
-```
-
-### Container
-
-**ATTENTION**: Containers of this service can't work well. Please check [limitation section](#Limitation).
-
-After build, we can start/stop them as follows.
-
-```bash
-# You must set specified environment variables before server starts. (Describe later)
-# Start server
-(server) $ (cd deploy/docker/server/ && docker-compose up -d)
-# Stop server
-(server) $ (cd deploy/docker/server/ && docker-compose down)
-
-# You must set specified environment variables before client starts. (Describe later)
-# Start client
-(client) $ (cd deploy/docker/client/ && docker-compose up -d)
-# Stop client
-(client) $ (cd deploy/docker/client/ && docker-compose down)
-```
-
-And helper tasks are defined to start/stop this service with environment variables.
-
-```bash
-# Start server
-$ bundle exec rake cluster:container:start-server[cluster-server-01,10.0.0.212]
-# Stop server
-$ bundle exec rake cluster:container:stop-server
 ```
 
 Test

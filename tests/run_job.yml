@@ -1,0 +1,18 @@
+---
+- hosts: all
+  tasks:
+    - name: Check whether a setting file of example job is created.
+      stat:
+        path: 'example.nomad'
+      register: stat_example_nomad
+      changed_when: no
+    - name: Generate a setting file of example job
+      command: 'nomad init'
+      when: not stat_example_nomad.stat.exists
+    - name: Check whether example job is submitted.
+      command: 'nomad status'
+      register: job_status_nomad
+      changed_when: no
+    - name: Submit example job
+      command: 'nomad run example.nomad'
+      when: "'example' not in job_status_nomad.stdout"

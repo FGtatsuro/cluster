@@ -198,6 +198,26 @@ $ ansible-playbook provision/main.yml -i spec/inventory/docker/hosts -l cluster
 $ bundle exec rake cluster:spec:all
 ```
 
+Test on Vagrant VMs
+-------------------
+
+To confirm the behavior of this service, we run tests on Vagrant VMs.
+
+```
+$ pip install ansible
+$ ansible-galaxy install -r tests/role_requirements.yml
+$ ansible-playbook tests/setup_cluster.yml -l localhost
+$ vagrant up
+$ ansible-playbook provision/main.yml -i tests/inventory/ssh/consul -l cluster
+$ ansible-playbook provision/main.yml -i tests/inventory/ssh/nomad -l cluster
+$ ansible-playbook tests/run_cluster.yml -i tests/inventory/ssh/consul -l cluster
+$ ansible-playbook tests/run_cluster.yml -i tests/inventory/ssh/nomad -l cluster
+$ ansible-playbook tests/run_job.yml -i tests/inventory/ssh/nomad -l server
+#
+# Wait a minute. Submitting jobs takes a few time.
+#
+```
+
 Task
 ----
 

@@ -95,8 +95,9 @@ ansible_host=127.0.0.1
 After that, we can build this service as follows.
 
 ```bash
-# Machine via ssh/local connection
-$ ansible-playbook provision/main.yml -i spec/inventory/pm/hosts -l cluster
+# This inventory file is for testing. Please use your inventory file.
+$ ansible-playbook provision/main.yml -i tests/inventory/ssh/consul -l cluster
+$ ansible-playbook provision/main.yml -i tests/inventory/ssh/nomad -l cluster
 ```
 
 ### Variables
@@ -153,26 +154,38 @@ At first, please install libraries to test this service.
 ```bash
 $ pip install ansible
 $ ansible-galaxy install -r role_requirements.yml
+$ ansible-galaxy install -r tests/role_requirements.yml
+$ ansible-playbook tests/setup_cluster.yml -l localhost
 $ gem install bundler
-$ bundle install
+$ bundle install --path vendor/bundle
 ```
 
 After that, please create containers for test, and run tests on them.
 
 ```bash
-$ ansible-playbook provision/main.yml -i spec/inventory/docker/hosts -l cluster
+$ ansible-playbook provision/main.yml -i tests/inventory/docker/hosts -l cluster
 $ bundle exec rake cluster:spec:all
 ```
 
 Test on Vagrant VMs
 -------------------
 
-To confirm the behavior of this service, we run tests on Vagrant VMs.
+To confirm the behavior of this service on cluster consisting of multiple machines, we run tests on Vagrant VMs.
 
-```
+At first, please install libraries to test this service.
+
+```bash
 $ pip install ansible
+$ ansible-galaxy install -r role_requirements.yml
 $ ansible-galaxy install -r tests/role_requirements.yml
 $ ansible-playbook tests/setup_cluster.yml -l localhost
+$ gem install bundler
+$ bundle install --path vendor/bundle
+```
+
+After that, please create VMs for test, and run tests on them.
+
+```bash
 $ vagrant up
 $ ansible-playbook provision/main.yml -i tests/inventory/ssh/consul -l cluster
 $ ansible-playbook provision/main.yml -i tests/inventory/ssh/nomad -l cluster

@@ -1,0 +1,4 @@
+---
+docker_group_append_users:
+  - 'vagrant'
+  - 'nomad'

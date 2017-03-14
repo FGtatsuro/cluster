@@ -1,0 +1,8 @@
+---
+consul_default_config_node_name: 'vm_server'
+consul_default_config_bind_addr: '192.168.50.6'
+consul_default_config_client_addr: '192.168.50.6'
+consul_default_config_bootstrap_expect: 1
+nomad_default_config_advertise: '192.168.50.6'
+nomad_default_config_server_bootstrap_expect: 1
+nomad_default_config_consul_address: '192.168.50.6:8500'

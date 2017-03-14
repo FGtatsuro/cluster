@@ -1,0 +1,7 @@
+---
+consul_default_config_node_name: 'vm_client'
+consul_default_config_bind_addr: '192.168.50.7'
+consul_default_config_client_addr: '192.168.50.7'
+consul_default_config_start_join: '192.168.50.6'
+nomad_default_config_advertise: '192.168.50.7'
+nomad_default_config_consul_address: '192.168.50.7:8500'

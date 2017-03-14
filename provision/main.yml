@@ -6,6 +6,9 @@
     - set_fact:
         utility_module_path: "{{ utility_module_path|default('../../ansible_utility') }}"
         consul_config_src_dir: "{{ consul_config_src_dir|default('../resources/consul/consul.d/') }}"
+        consul_default_config_dns_port: "{{ consul_default_config_dns_port|default(53) }}"
+        consul_daemon_cap_net_bind: "{{ consul_daemon_cap_net_bind|default(true)|bool }}"
+        consul_default_config_server: true
     - name: Do pre-task for each platform
       include: "{{ utility_module_path }}/pre_tasks/{{ ansible_connection }}.yml"
     - name: "Gather fact information on target platform."
@@ -22,6 +25,8 @@
     - set_fact:
         utility_module_path: "{{ utility_module_path|default('../../ansible_utility') }}"
         consul_config_src_dir: "{{ consul_config_src_dir|default('../resources/consul/consul.d/') }}"
+        consul_default_config_dns_port: "{{ consul_default_config_dns_port|default(53) }}"
+        consul_daemon_cap_net_bind: "{{ consul_daemon_cap_net_bind|default(true)|bool }}"
     - name: Do pre-task for each platform
       include: "{{ utility_module_path }}/pre_tasks/{{ ansible_connection }}.yml"
     - name: "Gather fact information on target platform."
@@ -38,6 +43,7 @@
     - set_fact:
         utility_module_path: "{{ utility_module_path|default('../../ansible_utility') }}"
         nomad_config_src_dir: "{{ nomad_config_src_dir|default('../resources/nomad/nomad.d/') }}"
+        nomad_default_config_server_enabled: true
     - name: Do pre-task for each platform
       include: "{{ utility_module_path }}/pre_tasks/{{ ansible_connection }}.yml"
     - name: "Gather fact information on target platform."
@@ -54,6 +60,7 @@
     - set_fact:
         utility_module_path: "{{ utility_module_path|default('../../ansible_utility') }}"
         nomad_config_src_dir: "{{ nomad_config_src_dir|default('../resources/nomad/nomad.d/') }}"
+        nomad_default_config_client_enabled: true
     - name: Do pre-task for each platform
       include: "{{ utility_module_path }}/pre_tasks/{{ ansible_connection }}.yml"
     - name: "Gather fact information on target platform."

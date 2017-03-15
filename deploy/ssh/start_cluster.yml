@@ -1,5 +1,8 @@
 ---
 - hosts: consul-server
+  pre_tasks:
+    - set_fact:
+        consul_daemon_script_dir: "{{ consul_daemon_script_dir|default('/opt/consul') }}"
   tasks:
     - name: Check whether consul daemon runs on server
       shell: "pgrep -f 'consul agent'"
@@ -7,12 +10,15 @@
       changed_when: no
       ignore_errors: yes
     - name: Run consul daemon on server
-      shell: "su -l consul -c '/opt/consul/daemons.py start'"
+      shell: "su -l consul -c '{{ consul_daemon_script_dir }}/daemons.py start'"
       args:
         warn: no
       when: check_consul_run_server.rc != 0
       become: yes
 - hosts: consul-client
+  pre_tasks:
+    - set_fact:
+        consul_daemon_script_dir: "{{ consul_daemon_script_dir|default('/opt/consul') }}"
   tasks:
     - name: Check whether consul daemon runs on client
       shell: "pgrep -f 'consul agent'"
@@ -20,12 +26,15 @@
       changed_when: no
       ignore_errors: yes
     - name: Run consul daemon on client
-      shell: "su -l consul -c '/opt/consul/daemons.py start'"
+      shell: "su -l consul -c '{{ consul_daemon_script_dir }}/daemons.py start'"
       args:
         warn: no
       when: check_consul_run_client.rc != 0
       become: yes
 - hosts: nomad-server
+  pre_tasks:
+    - set_fact:
+        nomad_daemon_script_dir: "{{ nomad_daemon_script_dir|default('/opt/nomad') }}"
   tasks:
     - name: Check whether nomad daemon runs on server
       shell: "pgrep -f 'nomad agent'"
@@ -33,12 +42,15 @@
       changed_when: no
       ignore_errors: yes
     - name: Run nomad daemon on server
-      shell: "su -l nomad -c '/opt/nomad/daemons.py start'"
+      shell: "su -l nomad -c '{{ nomad_daemon_script_dir }}/daemons.py start'"
       args:
         warn: no
       when: check_nomad_run_server.rc != 0
       become: yes
 - hosts: nomad-client
+  pre_tasks:
+    - set_fact:
+        nomad_daemon_script_dir: "{{ nomad_daemon_script_dir|default('/opt/nomad') }}"
   tasks:
     - name: Ensure docker daemon runs
       service:
@@ -52,7 +64,7 @@
       changed_when: no
       ignore_errors: yes
     - name: Run nomad daemon on client
-      shell: "su -l nomad -c '/opt/nomad/daemons.py start'"
+      shell: "su -l nomad -c '{{ nomad_daemon_script_dir }}/daemons.py start'"
       args:
         warn: no
       when: check_nomad_run_client.rc != 0

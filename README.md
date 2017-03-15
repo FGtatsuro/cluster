@@ -102,22 +102,28 @@ $ ansible-playbook provision/main.yml -i tests/inventory/ssh/nomad -l cluster
 
 ### Variables
 
-These are Ansible variables related to build process.
-If you want to use not-default values, it's easy to set them via Ansible [--extra-vars](http://docs.ansible.com/ansible/playbooks_variables.html#passing-variables-on-the-command-line) option.
+This service uses several variables with service-specified values.
 
 |name|description|default value|
 |---|---|---|
 |utility_module_path|Path `ansible_utility` module exists. You can use absolute path or relative path from `./provision/main.yml`.|../../ansible_utility|
+|consul_config_src_dir|`consul_config_src_dir` of [FGtatsuro.consul](https://github.com/FGtatsuro/ansible-consul#common).|../resources/consul/consul.d/|
+|consul_default_config_server|`consul_default_config_server` of [FGtatsuro.consul](https://github.com/FGtatsuro/ansible-consul#common).|true(only on `consul-server`)|
+|consul_default_config_dns_port|`consul_default_config_dns_port` of [FGtatsuro.consul](https://github.com/FGtatsuro/ansible-consul#common).|53|
+|consul_daemon_script_dir|`consul_daemon_script_dir` of [FGtatsuro.consul](https://github.com/FGtatsuro/ansible-consul#only-not-container).|/opt/consul|
+|consul_daemon_cap_net_bind|`consul_daemon_cap_net_bind` of [FGtatsuro.consul](https://github.com/FGtatsuro/ansible-consul#only-linux).|true|
+|nomad_config_src_dir|`nomad_config_src_dir` of [FGtatsuro.nomad](https://github.com/FGtatsuro/ansible-nomad#common).|../resources/nomad/nomad.d/|
+|nomad_default_config_server_enabled|`nomad_default_config_server_enabled` of [FGtatsuro.nomad](https://github.com/FGtatsuro/ansible-nomad#common).|true(only on `nomad-server`)|
+|nomad_default_config_client_enabled|`nomad_default_config_client_enabled` of [FGtatsuro.nomad](https://github.com/FGtatsuro/ansible-nomad#common).|true(only on `nomad-client`)|
+|nomad_daemon_script_dir|`nomad_daemon_script_dir` of [FGtatsuro.nomad](https://github.com/FGtatsuro/ansible-nomad#only-not-container).|/opt/nomad|
+|docker_install_machine|`docker_install_machine` of [FGtatsuro.docker-toolbox](https://github.com/FGtatsuro/ansible-docker-toolbox#only-linux).|no|
+|docker_install_compose|`docker_install_compose` of [FGtatsuro.docker-toolbox](https://github.com/FGtatsuro/ansible-docker-toolbox#only-linux).|no|
 
-Config
-------
-
-We can put additional configs of Consul/Nomad. Config files under following directories are deployed.
-
-- [./resources/consul/consul.d/ (Consul config directory)](./resources/consul/consul.d/)
-- [./resources/nomad/nomad.d/ (Nomad config directory)](./resources/nomad/nomad.d/)
-
-This step must be done before build.
+- If you want to use other role variables, please check READMEs of following Ansible roles this service depends on.
+  - [FGtatsuro.consul](https://github.com/FGtatsuro/ansible-consul)
+  - [FGtatsuro.nomad](https://github.com/FGtatsuro/ansible-nomad)
+  - [FGtatsuro.docker-toolbox](https://github.com/FGtatsuro/ansible-docker-toolbox)
+- If you want to overwrite these variables, it's easy to set them via Ansible [--extra-vars](http://docs.ansible.com/ansible/playbooks_variables.html#passing-variables-on-the-command-line) option.
 
 Deploy
 ------

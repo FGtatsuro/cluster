@@ -3,3 +3,6 @@
   remote_user: root
   roles:
     - role: FGtatsuro.vagrant
+    - role: FGtatsuro.docker-toolbox
+      docker_install_machine: no
+      docker_install_compose: no

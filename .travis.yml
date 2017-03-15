@@ -20,16 +20,13 @@ install:
   - pip install ansible
   - ansible-galaxy install -r role_requirements.yml
   - gem install bundler
-  - bundle install
+  - bundle install --path vendor/bundle
 
 script:
   - git clone https://github.com/FGtatsuro/ansible_utility.git
   - ansible-playbook provision/main.yml -i tests/inventory/docker/hosts -l cluster --extra-vars="utility_module_path=../ansible_utility"
-  - docker rm -f service-cluster-consul service-cluster-nomad
-  - PRIVATE_IP=`ip addr show eth0 | awk '/inet /{printf $2}' | awk -F/ '{printf $1}'`
-  - bundle exec rake cluster:container:start-server[testserver,${PRIVATE_IP},nil,1]
-  - bundle exec rake cluster:spec:all
-  - bundle exec rake cluster:container:stop-server
-  - bundle exec rake cluster:container:start-client[testclient,${PRIVATE_IP},${PRIVATE_IP}]
-  - bundle exec rake cluster:spec:all
-  - bundle exec rake cluster:container:stop-client
+  - bundle exec rake cluster:spec:consul-client
+  - bundle exec rake cluster:spec:consul-server
+  - bundle exec rake cluster:spec:nomad-client
+  - bundle exec rake cluster:spec:nomad-server
+

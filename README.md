@@ -190,6 +190,9 @@ $ ansible-playbook tests/run_job.yml -i tests/inventory/ssh/nomad -l server
 #
 # Wait a minute. Submitting jobs takes a few time.
 #
+$ bundle install --path vendor/bundle
+$ bundle exec rake cluster:spec:server
+$ bundle exec rake cluster:spec:client
 ```
 
 Task

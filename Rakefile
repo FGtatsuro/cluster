@@ -5,21 +5,41 @@ namespace :cluster do
   namespace :spec do
     hosts = [
       {
-        :name     =>  'service-cluster-consul',
+        :name     =>  'service-cluster-consul-server',
         :backend  =>  'docker',
-        :pattern  =>  'consul_spec.rb'
+        :pattern  =>  'consul_server_spec.rb'
       },
       {
-        :name     =>  'service-cluster-nomad',
+        :name     =>  'service-cluster-consul-client',
         :backend  =>  'docker',
-        :pattern  =>  'nomad_spec.rb'
+        :pattern  =>  'consul_client_spec.rb'
+      },
+      {
+        :name     =>  'service-cluster-nomad-server',
+        :backend  =>  'docker',
+        :pattern  =>  'nomad_server_spec.rb'
+      },
+      {
+        :name     =>  'service-cluster-nomad-client',
+        :backend  =>  'docker',
+        :pattern  =>  'nomad_client_spec.rb'
+      },
+      {
+        :name =>  'server',
+        :backend  =>  'vagrant',
+        :pattern  =>  'consul_server_spec.rb,nomad_server_spec.rb'
+      },
+      {
+        :name =>  'client',
+        :backend  =>  'vagrant',
+        :pattern  =>  'consul_client_spec.rb,nomad_client_spec.rb'
       }
     ]
 
     all = []
 
     hosts.each do |host|
-      n = host[:name].gsub(/service-/, '')
+      n = host[:name].gsub(/service-cluster-/, '')
       desc "Run serverspec tests for #{n}."
       RSpec::Core::RakeTask.new(n.to_sym) do |t|
         ENV['TARGET_HOST'] = host[:name]

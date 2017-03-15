@@ -20,3 +20,4 @@ nomad-client
 ansible_connection=docker
 ansible_user=root
 utility_docker_image_committed=yes
+consul_daemon_cap_net_bind=no

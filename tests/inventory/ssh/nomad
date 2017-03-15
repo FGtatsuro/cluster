@@ -1,0 +1,14 @@
+[nomad-server]
+server  ansible_port=2227 ansible_ssh_private_key_file='.vagrant/machines/server/virtualbox/private_key'
+
+[nomad-client]
+client  ansible_port=2228 ansible_ssh_private_key_file='.vagrant/machines/client/virtualbox/private_key'
+
+[cluster:children]
+nomad-server
+nomad-client
+
+[cluster:vars]
+ansible_connection=ssh
+ansible_user=vagrant
+ansible_host=127.0.0.1

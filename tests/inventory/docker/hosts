@@ -1,0 +1,23 @@
+[consul-server]
+service-cluster-consul-server   utility_docker_base_image=fgtatsuro/infra-bridgehead:alpine-3.3 utility_docker_commit_image=fgtatsuro/consul-server:0.1
+
+[consul-client]
+service-cluster-consul-client   utility_docker_base_image=fgtatsuro/infra-bridgehead:alpine-3.3 utility_docker_commit_image=fgtatsuro/consul-client:0.1
+
+[nomad-server]
+service-cluster-nomad-server    utility_docker_base_image=fgtatsuro/infra-bridgehead:debian-jessie utility_docker_commit_image=fgtatsuro/nomad-server:0.1
+
+[nomad-client]
+service-cluster-nomad-client    utility_docker_base_image=fgtatsuro/infra-bridgehead:debian-jessie utility_docker_commit_image=fgtatsuro/nomad-client:0.1
+
+[cluster:children]
+consul-server
+consul-client
+nomad-server
+nomad-client
+
+[cluster:vars]
+ansible_connection=docker
+ansible_user=root
+utility_docker_image_committed=yes
+consul_daemon_cap_net_bind=no

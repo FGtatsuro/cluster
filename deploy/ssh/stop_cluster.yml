@@ -1,0 +1,52 @@
+- hosts: consul-server
+  tasks:
+    - name: Check whether consul daemon runs on server
+      shell: "pgrep -f 'consul agent'"
+      register: check_consul_run_server
+      changed_when: no
+      ignore_errors: yes
+    - name: Stop consul daemon on server
+      shell: "su -l consul -c '/opt/consul/daemons.py stop'"
+      args:
+        warn: no
+      when: check_consul_run_server.rc == 0
+      become: yes
+- hosts: consul-client
+  tasks:
+    - name: Check whether consul daemon runs on client
+      shell: "pgrep -f 'consul agent'"
+      register: check_consul_run_client
+      changed_when: no
+      ignore_errors: yes
+    - name: Stop consul daemon on client
+      shell: "su -l consul -c '/opt/consul/daemons.py stop'"
+      args:
+        warn: no
+      when: check_consul_run_client.rc == 0
+      become: yes
+- hosts: nomad-server
+  tasks:
+    - name: Check whether nomad daemon runs on server
+      shell: "pgrep -f 'nomad agent'"
+      register: check_nomad_run_server
+      changed_when: no
+      ignore_errors: yes
+    - name: Stop nomad daemon on server
+      shell: "su -l nomad -c '/opt/nomad/daemons.py stop'"
+      args:
+        warn: no
+      when: check_nomad_run_server.rc == 0
+      become: yes
+- hosts: nomad-client
+  tasks:
+    - name: Check whether nomad daemon runs on client
+      shell: "pgrep -f 'nomad agent'"
+      register: check_nomad_run_client
+      changed_when: no
+      ignore_errors: yes
+    - name: Stop nomad daemon on client
+      shell: "su -l nomad -c '/opt/nomad/daemons.py stop'"
+      args:
+        warn: no
+      when: check_nomad_run_client.rc == 0
+      become: yes

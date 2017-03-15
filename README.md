@@ -95,7 +95,7 @@ ansible_host=127.0.0.1
 After that, we can build this service as follows.
 
 ```bash
-# This inventory file is for testing. Please use your inventory file.
+# These inventory files are for testing. Please use your inventory files.
 $ ansible-playbook provision/main.yml -i tests/inventory/ssh/consul -l cluster
 $ ansible-playbook provision/main.yml -i tests/inventory/ssh/nomad -l cluster
 ```
@@ -122,28 +122,17 @@ This step must be done before build.
 Deploy
 ------
 
-This service can be deployed as both server and client.
-
-### Machine via ssh/local connection
-
 After build, we can start/stop them as follows.
 
 ```bash
-# You must set specified environment variables before server starts. (Describe later)
-# Start server
-(server) $ sudo -E /opt/cluster/consul/daemons.py server
-(server) $ sudo -E /opt/cluster/nomad/daemons.py server
-# Stop server (TODO: more graceful way)
-(server) $ sudo pkill -f "consul"
-(server) $ sudo pkill -f "nomad"
+# These inventory files are for testing. Please use your inventory files.
+# Start cluster
+$ ansible-playbook deploy/ssh/start_cluster.yml -i tests/inventory/ssh/consul -l cluster
+$ ansible-playbook deploy/ssh/start_cluster.yml -i tests/inventory/ssh/nomad -l cluster
 
-# You must set specified environment variables before client starts. (Describe later)
-# Start client
-(client) $ sudo -E /opt/cluster/consul/daemons.py client
-(client) $ sudo -E /opt/cluster/nomad/daemons.py client
-# Stop client (TODO: more graceful way)
-(client) $ sudo pkill -f "consul"
-(client) $ sudo pkill -f "nomad"
+# Stop cluster
+$ ansible-playbook deploy/ssh/stop_cluster.yml -i tests/inventory/ssh/nomad -l cluster
+$ ansible-playbook deploy/ssh/stop_cluster.yml -i tests/inventory/ssh/consul -l cluster
 ```
 
 Test
@@ -189,8 +178,8 @@ After that, please create VMs for test, and run tests on them.
 $ vagrant up
 $ ansible-playbook provision/main.yml -i tests/inventory/ssh/consul -l cluster
 $ ansible-playbook provision/main.yml -i tests/inventory/ssh/nomad -l cluster
-$ ansible-playbook tests/run_cluster.yml -i tests/inventory/ssh/consul -l cluster
-$ ansible-playbook tests/run_cluster.yml -i tests/inventory/ssh/nomad -l cluster
+$ ansible-playbook deploy/ssh/start_cluster.yml -i tests/inventory/ssh/consul -l cluster
+$ ansible-playbook deploy/ssh/start_cluster.yml -i tests/inventory/ssh/nomad -l cluster
 $ ansible-playbook tests/run_job.yml -i tests/inventory/ssh/nomad -l server
 #
 # Wait a minute. Submitting jobs takes a few time.

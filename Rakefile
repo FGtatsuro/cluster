@@ -27,12 +27,14 @@ namespace :cluster do
       {
         :name =>  'server',
         :backend  =>  'vagrant',
-        :pattern  =>  'consul_server_spec.rb,nomad_server_spec.rb'
+        :nomad_consul_address => '192.168.50.6:8500',
+        :pattern  =>  'consul_server_spec.rb,nomad_server_spec.rb,cluster_spec.rb'
       },
       {
         :name =>  'client',
         :backend  =>  'vagrant',
-        :pattern  =>  'consul_client_spec.rb,nomad_client_spec.rb'
+        :nomad_consul_address => '192.168.50.7:8500',
+        :pattern  =>  'consul_client_spec.rb,nomad_client_spec.rb,cluster_spec.rb'
       }
     ]
 
@@ -44,6 +46,7 @@ namespace :cluster do
       RSpec::Core::RakeTask.new(n.to_sym) do |t|
         ENV['TARGET_HOST'] = host[:name]
         ENV['TARGET_BACKEND'] = ENV['TARGET_BACKEND'] || host[:backend]
+        ENV['NOMAD_CONSUL_ADDRESS'] = host[:nomad_consul_address]
         t.pattern = host[:pattern]
       end
       all << "cluster:spec:#{n}"

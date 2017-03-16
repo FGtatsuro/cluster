@@ -186,7 +186,7 @@ $ ansible-playbook provision/main.yml -i tests/inventory/ssh/consul -l cluster
 $ ansible-playbook provision/main.yml -i tests/inventory/ssh/nomad -l cluster
 $ ansible-playbook deploy/ssh/start_cluster.yml -i tests/inventory/ssh/consul -l cluster
 $ ansible-playbook deploy/ssh/start_cluster.yml -i tests/inventory/ssh/nomad -l cluster
-$ ansible-playbook tests/run_job.yml -i tests/inventory/ssh/nomad -l server
+$ ansible-playbook tests/start_job.yml -i tests/inventory/ssh/nomad -l server
 #
 # Wait a minute. Submitting jobs takes a few time.
 #

@@ -1,11 +1,11 @@
 require "spec_helper_#{ENV['TARGET_BACKEND']}"
 
-describe file("/etc/nomad.d/nomad_common.json") do
+describe file("/etc/nomad.d/nomad_common.hcl") do
   its(:content) { should_not match /server {\n(.*\n){0,2}  enabled =/ }
   its(:content) { should match /client {\n(.*\n){0,2}  enabled = true/ }
 end
 
-describe file("/etc/nomad.d/docker.json") do
+describe file("/etc/nomad.d/docker.hcl") do
   its(:content) { should match /"docker.cleanup.image" = "false"/ }
 end
 

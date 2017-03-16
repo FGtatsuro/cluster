@@ -5,6 +5,10 @@ describe file("/etc/nomad.d/nomad_common.json") do
   its(:content) { should match /client {\n(.*\n){0,2}  enabled = true/ }
 end
 
+describe file("/etc/nomad.d/docker.json") do
+  its(:content) { should match /"docker.cleanup.image" = "false"/ }
+end
+
 describe command('which docker') do
   its(:exit_status) { should eq 0 }
 end

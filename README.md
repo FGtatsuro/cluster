@@ -112,7 +112,7 @@ This service uses several variables with service-specified values.
 |consul_default_config_dns_port|`consul_default_config_dns_port` of [FGtatsuro.consul](https://github.com/FGtatsuro/ansible-consul#common).|53|
 |consul_daemon_script_dir|`consul_daemon_script_dir` of [FGtatsuro.consul](https://github.com/FGtatsuro/ansible-consul#only-not-container).|/opt/consul|
 |consul_daemon_cap_net_bind|`consul_daemon_cap_net_bind` of [FGtatsuro.consul](https://github.com/FGtatsuro/ansible-consul#only-linux).|true|
-|nomad_config_src_dir|`nomad_config_src_dir` of [FGtatsuro.nomad](https://github.com/FGtatsuro/ansible-nomad#common).|../resources/nomad/nomad.d/|
+|nomad_config_src_dir|`nomad_config_src_dir` of [FGtatsuro.nomad](https://github.com/FGtatsuro/ansible-nomad#common).|../resources/nomad/nomad.d/server (on `nomad-server`)<br>../resources/nomad/nomad.d/client (on `nomad-client`)|
 |nomad_default_config_server_enabled|`nomad_default_config_server_enabled` of [FGtatsuro.nomad](https://github.com/FGtatsuro/ansible-nomad#common).|true(only on `nomad-server`)|
 |nomad_default_config_client_enabled|`nomad_default_config_client_enabled` of [FGtatsuro.nomad](https://github.com/FGtatsuro/ansible-nomad#common).|true(only on `nomad-client`)|
 |nomad_daemon_script_dir|`nomad_daemon_script_dir` of [FGtatsuro.nomad](https://github.com/FGtatsuro/ansible-nomad#only-not-container).|/opt/nomad|

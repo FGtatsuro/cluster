@@ -1,6 +1,6 @@
 require "spec_helper_#{ENV['TARGET_BACKEND']}"
 
-describe file("/etc/nomad.d/nomad_common.json") do
+describe file("/etc/nomad.d/nomad_common.hcl") do
   its(:content) { should match /server {\n(.*\n){0,2}  enabled = true/ }
   its(:content) { should_not match /client {\n(.*\n){0,2}  enabled =/ }
 end

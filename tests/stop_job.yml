@@ -1,0 +1,10 @@
+---
+- hosts: all
+  tasks:
+    - name: Check whether example job is submitted.
+      command: 'nomad status'
+      register: job_status_nomad
+      changed_when: no
+    - name: Stop example job
+      command: 'nomad stop example'
+      when: "'example' in job_status_nomad.stdout"

@@ -102,7 +102,7 @@ $ ansible-playbook provision/main.yml -i tests/inventory/ssh/nomad -l cluster
 
 ### Variables
 
-This service uses several variables with service-specified values.
+This service uses several role variables with service-specified values.
 
 |name|description|default value|
 |---|---|---|
@@ -110,12 +110,10 @@ This service uses several variables with service-specified values.
 |consul_config_src_dir|`consul_config_src_dir` of [FGtatsuro.consul](https://github.com/FGtatsuro/ansible-consul#common).|../resources/consul/consul.d/|
 |consul_default_config_server|`consul_default_config_server` of [FGtatsuro.consul](https://github.com/FGtatsuro/ansible-consul#common).|true(only on `consul-server`)|
 |consul_default_config_dns_port|`consul_default_config_dns_port` of [FGtatsuro.consul](https://github.com/FGtatsuro/ansible-consul#common).|53|
-|consul_daemon_script_dir|`consul_daemon_script_dir` of [FGtatsuro.consul](https://github.com/FGtatsuro/ansible-consul#only-not-container).|/opt/consul|
 |consul_daemon_cap_net_bind|`consul_daemon_cap_net_bind` of [FGtatsuro.consul](https://github.com/FGtatsuro/ansible-consul#only-linux).|true|
 |nomad_config_src_dir|`nomad_config_src_dir` of [FGtatsuro.nomad](https://github.com/FGtatsuro/ansible-nomad#common).|../resources/nomad/nomad.d/server (on `nomad-server`)<br>../resources/nomad/nomad.d/client (on `nomad-client`)|
 |nomad_default_config_server_enabled|`nomad_default_config_server_enabled` of [FGtatsuro.nomad](https://github.com/FGtatsuro/ansible-nomad#common).|true(only on `nomad-server`)|
 |nomad_default_config_client_enabled|`nomad_default_config_client_enabled` of [FGtatsuro.nomad](https://github.com/FGtatsuro/ansible-nomad#common).|true(only on `nomad-client`)|
-|nomad_daemon_script_dir|`nomad_daemon_script_dir` of [FGtatsuro.nomad](https://github.com/FGtatsuro/ansible-nomad#only-not-container).|/opt/nomad|
 |docker_install_machine|`docker_install_machine` of [FGtatsuro.docker-toolbox](https://github.com/FGtatsuro/ansible-docker-toolbox#only-linux).|no|
 |docker_install_compose|`docker_install_compose` of [FGtatsuro.docker-toolbox](https://github.com/FGtatsuro/ansible-docker-toolbox#only-linux).|no|
 
@@ -128,7 +126,7 @@ This service uses several variables with service-specified values.
 Deploy
 ------
 
-After build, we can start/stop them as follows.
+After build, we can start/stop this service as follows.
 
 ```bash
 # These inventory files are for testing. Please use your inventory files.
@@ -140,6 +138,19 @@ $ ansible-playbook deploy/ssh/start_cluster.yml -i tests/inventory/ssh/nomad -l 
 $ ansible-playbook deploy/ssh/stop_cluster.yml -i tests/inventory/ssh/nomad -l cluster
 $ ansible-playbook deploy/ssh/stop_cluster.yml -i tests/inventory/ssh/consul -l cluster
 ```
+
+### Variables
+
+There are variables related to the playbook to start service(=`start_cluster.yml`).
+
+|name|description|default value|
+|---|---|---|
+|consul_daemon_script_dir|`consul_daemon_script_dir` of [FGtatsuro.consul](https://github.com/FGtatsuro/ansible-consul#only-not-container).|/opt/consul|
+|consul_owner|`consul_owner` of [FGtatsuro.consul](https://github.com/FGtatsuro/ansible-consul#common).>If this value isn't `root` and `consul_daemon_root_privilege` is false, Consul daemon is started by `consul_owner`.|consul|
+|consul_daemon_root_privilege|If this value is true, Consul daemon is started by root.|false|
+|nomad_daemon_script_dir|`nomad_daemon_script_dir` of [FGtatsuro.nomad](https://github.com/FGtatsuro/ansible-nomad#only-not-container).|/opt/nomad|
+|nomad_owner|`nomad_owner` of [FGtatsuro.nomad](https://github.com/FGtatsuro/ansible-nomad#common).<br>If this value isn't `root` and `nomad_daemon_root_privilege` is false, Nomad daemon is started by `nomad_owner`.|nomad|
+|nomad_daemon_root_privilege|If this value is true, Nomad daemon is started by root.|false|
 
 Test
 ----

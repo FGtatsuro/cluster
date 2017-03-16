@@ -3,54 +3,89 @@
   pre_tasks:
     - set_fact:
         consul_daemon_script_dir: "{{ consul_daemon_script_dir|default('/opt/consul') }}"
+        consul_owner: "{{ consul_owner|default('consul') }}"
+        consul_daemon_root_privilege: "{{ consul_daemon_root_privilege|default(false)|bool }}"
   tasks:
     - name: Check whether consul daemon runs on server
       shell: "pgrep -f 'consul agent'"
       register: check_consul_run_server
       changed_when: no
       ignore_errors: yes
-    - name: Run consul daemon on server
-      shell: "su -l consul -c '{{ consul_daemon_script_dir }}/daemons.py start'"
+    - name: Run consul daemon on server by consul owner
+      shell: "su -l {{ consul_owner }} -c '{{ consul_daemon_script_dir }}/daemons.py start'"
       args:
         warn: no
-      when: check_consul_run_server.rc != 0
+      when: (
+        (check_consul_run_server.rc != 0) and
+        ((not consul_daemon_root_privilege) and (consul_owner != 'root')))
       become: yes
+    - name: Run consul daemon on server by root
+      shell: "{{ consul_daemon_script_dir }}/daemons.py start"
+      when: (
+        (check_consul_run_server.rc != 0) and
+        (consul_daemon_root_privilege or (consul_owner == 'root')))
+      become: yes
+
 - hosts: consul-client
   pre_tasks:
     - set_fact:
         consul_daemon_script_dir: "{{ consul_daemon_script_dir|default('/opt/consul') }}"
+        consul_owner: "{{ consul_owner|default('consul') }}"
+        consul_daemon_root_privilege: "{{ consul_daemon_root_privilege|default(false)|bool }}"
   tasks:
     - name: Check whether consul daemon runs on client
       shell: "pgrep -f 'consul agent'"
       register: check_consul_run_client
       changed_when: no
       ignore_errors: yes
-    - name: Run consul daemon on client
-      shell: "su -l consul -c '{{ consul_daemon_script_dir }}/daemons.py start'"
+    - name: Run consul daemon on client by consul owner
+      shell: "su -l {{ consul_owner }} -c '{{ consul_daemon_script_dir }}/daemons.py start'"
       args:
         warn: no
-      when: check_consul_run_client.rc != 0
+      when: (
+        (check_consul_run_client.rc != 0) and
+        ((not consul_daemon_root_privilege) and (consul_owner != 'root')))
       become: yes
+    - name: Run consul daemon on client by root
+      shell: "{{ consul_daemon_script_dir }}/daemons.py start"
+      when: (
+        (check_consul_run_client.rc != 0) and
+        (consul_daemon_root_privilege or (consul_owner == 'root')))
+      become: yes
+
 - hosts: nomad-server
   pre_tasks:
     - set_fact:
         nomad_daemon_script_dir: "{{ nomad_daemon_script_dir|default('/opt/nomad') }}"
+        nomad_owner: "{{ nomad_owner|default('nomad') }}"
+        nomad_daemon_root_privilege: "{{ nomad_daemon_root_privilege|default(false)|bool }}"
   tasks:
     - name: Check whether nomad daemon runs on server
       shell: "pgrep -f 'nomad agent'"
       register: check_nomad_run_server
       changed_when: no
       ignore_errors: yes
-    - name: Run nomad daemon on server
-      shell: "su -l nomad -c '{{ nomad_daemon_script_dir }}/daemons.py start'"
+    - name: Run nomad daemon on server by nomad owner
+      shell: "su -l {{ nomad_owner }} -c '{{ nomad_daemon_script_dir }}/daemons.py start'"
       args:
         warn: no
-      when: check_nomad_run_server.rc != 0
+      when: (
+        (check_nomad_run_server.rc != 0) and
+        ((not nomad_daemon_root_privilege) and (nomad_owner != 'root')))
       become: yes
+    - name: Run nomad daemon on server by root
+      shell: "{{ nomad_daemon_script_dir }}/daemons.py start"
+      when: (
+        (check_nomad_run_server.rc != 0) and
+        (nomad_daemon_root_privilege or (nomad_owner == 'root')))
+      become: yes
+
 - hosts: nomad-client
   pre_tasks:
     - set_fact:
         nomad_daemon_script_dir: "{{ nomad_daemon_script_dir|default('/opt/nomad') }}"
+        nomad_owner: "{{ nomad_owner|default('nomad') }}"
+        nomad_daemon_root_privilege: "{{ nomad_daemon_root_privilege|default(false)|bool }}"
   tasks:
     - name: Ensure docker daemon runs
       service:
@@ -63,9 +98,19 @@
       register: check_nomad_run_client
       changed_when: no
       ignore_errors: yes
-    - name: Run nomad daemon on client
-      shell: "su -l nomad -c '{{ nomad_daemon_script_dir }}/daemons.py start'"
+    - name: Run nomad daemon on client by nomad owner
+      shell: "su -l {{ nomad_owner }} -c '{{ nomad_daemon_script_dir }}/daemons.py start'"
       args:
         warn: no
-      when: check_nomad_run_client.rc != 0
+      when: (
+        (check_nomad_run_client.rc != 0) and
+        ((not nomad_daemon_root_privilege) and (nomad_owner != 'root')))
+      become: yes
+    - name: Run nomad daemon on client by nomad owner
+      shell: "{{ nomad_daemon_script_dir }}/daemons.py start"
+      args:
+        warn: no
+      when: (
+        (check_nomad_run_client.rc != 0) and
+        (nomad_daemon_root_privilege and (nomad_owner == 'root')))
       become: yes

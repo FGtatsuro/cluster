@@ -9,7 +9,7 @@
       changed_when: no
       ignore_errors: yes
     - name: Stop consul daemon on server
-      shell: "su -l consul -c '{{ consul_daemon_script_dir }}/daemons.py stop'"
+      shell: "{{ consul_daemon_script_dir }}/daemons.py stop"
       args:
         warn: no
       when: check_consul_run_server.rc == 0
@@ -25,7 +25,7 @@
       changed_when: no
       ignore_errors: yes
     - name: Stop consul daemon on client
-      shell: "su -l consul -c '{{ consul_daemon_script_dir }}/daemons.py stop'"
+      shell: "{{ consul_daemon_script_dir }}/daemons.py stop"
       args:
         warn: no
       when: check_consul_run_client.rc == 0
@@ -41,7 +41,7 @@
       changed_when: no
       ignore_errors: yes
     - name: Stop nomad daemon on server
-      shell: "su -l nomad -c '{{ nomad_daemon_script_dir }}/daemons.py stop'"
+      shell: "{{ nomad_daemon_script_dir }}/daemons.py stop"
       args:
         warn: no
       when: check_nomad_run_server.rc == 0
@@ -57,7 +57,7 @@
       changed_when: no
       ignore_errors: yes
     - name: Stop nomad daemon on client
-      shell: "su -l nomad -c '{{ nomad_daemon_script_dir }}/daemons.py stop'"
+      shell: "{{ nomad_daemon_script_dir }}/daemons.py stop"
       args:
         warn: no
       when: check_nomad_run_client.rc == 0

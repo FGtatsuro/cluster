@@ -93,6 +93,7 @@
         state: started
         enabled: yes
       become: yes
+      when: ansible_system == 'Linux'
     - name: Check whether nomad daemon runs on client
       shell: "pgrep -f 'nomad agent'"
       register: check_nomad_run_client

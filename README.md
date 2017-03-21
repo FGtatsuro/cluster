@@ -206,11 +206,6 @@ $ bundle exec rake cluster:spec:server
 $ bundle exec rake cluster:spec:client
 ```
 
-Task
-----
-
-As we use tasks to deploy service/run tests, several utility tasks are defined. You can check them with `bundle exec rake -D`.
-
 Limitation
 ----------
 

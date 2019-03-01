@@ -18,15 +18,17 @@ sudo: required
 
 install:
   - pip install ansible
-  - ansible-galaxy install -r role_requirements.yml
+  - git clone https://github.com/FGtatsuro/ansible-python-requirements.git roles/FGtatsuro.python-requirements
+  - git clone https://github.com/FGtatsuro/ansible-docker-toolbox.git roles/FGtatsuro.docker_toolbox
+  - git clone https://github.com/FGtatsuro/ansible-consul.git roles/FGtatsuro.consul
+  - git clone https://github.com/FGtatsuro/ansible-nomad.git roles/FGtatsuro.nomad
+  - git clone https://github.com/FGtatsuro/ansible_utility.git
   - gem install bundler
   - bundle install --path vendor/bundle
 
 script:
-  - git clone https://github.com/FGtatsuro/ansible_utility.git
   - ansible-playbook provision/main.yml -i tests/inventory/docker/hosts -l cluster --extra-vars="utility_module_path=../ansible_utility"
   - bundle exec rake cluster:spec:consul-client
   - bundle exec rake cluster:spec:consul-server
   - bundle exec rake cluster:spec:nomad-client
   - bundle exec rake cluster:spec:nomad-server
-

@@ -114,13 +114,13 @@ This service uses several role variables with service-specified values.
 |nomad_config_src_dir|`nomad_config_src_dir` of [FGtatsuro.nomad](https://github.com/FGtatsuro/ansible-nomad#common).|../resources/nomad/nomad.d/server (on `nomad-server`)<br>../resources/nomad/nomad.d/client (on `nomad-client`)|
 |nomad_default_config_server_enabled|`nomad_default_config_server_enabled` of [FGtatsuro.nomad](https://github.com/FGtatsuro/ansible-nomad#common).|true(only on `nomad-server`)|
 |nomad_default_config_client_enabled|`nomad_default_config_client_enabled` of [FGtatsuro.nomad](https://github.com/FGtatsuro/ansible-nomad#common).|true(only on `nomad-client`)|
-|docker_install_machine|`docker_install_machine` of [FGtatsuro.docker-toolbox](https://github.com/FGtatsuro/ansible-docker-toolbox#only-linux).|no|
-|docker_install_compose|`docker_install_compose` of [FGtatsuro.docker-toolbox](https://github.com/FGtatsuro/ansible-docker-toolbox#only-linux).|no|
+|docker_install_machine|`docker_install_machine` of [FGtatsuro.docker_toolbox](https://github.com/FGtatsuro/ansible-docker-toolbox#only-linux).|no|
+|docker_install_compose|`docker_install_compose` of [FGtatsuro.docker_toolbox](https://github.com/FGtatsuro/ansible-docker-toolbox#only-linux).|no|
 
 - If you want to use other role variables, please check READMEs of following Ansible roles this service depends on.
   - [FGtatsuro.consul](https://github.com/FGtatsuro/ansible-consul)
   - [FGtatsuro.nomad](https://github.com/FGtatsuro/ansible-nomad)
-  - [FGtatsuro.docker-toolbox](https://github.com/FGtatsuro/ansible-docker-toolbox)
+  - [FGtatsuro.docker_toolbox](https://github.com/FGtatsuro/ansible-docker-toolbox)
 - If you want to overwrite these variables, it's easy to set them via Ansible [--extra-vars](http://docs.ansible.com/ansible/playbooks_variables.html#passing-variables-on-the-command-line) option.
 
 Deploy

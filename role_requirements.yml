@@ -1,4 +1,4 @@
 ---
 - src: FGtatsuro.consul
 - src: FGtatsuro.nomad
-- src: FGtatsuro.docker-toolbox
+- src: FGtatsuro.docker_toolbox
